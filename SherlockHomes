@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    int t;
+    cin>>t;
+    char c;
+    cin.get(c);
+    while(t--)
+    {
+        char p[10002],text[101000];
+        cin>>p>>text;
+
+        int lp = strlen(p);
+        int lt = strlen(text);
+
+        int p_abc[26] = {0};
+        int f = 0;
+        for(int i=0;i<lp;i++)
+            p_abc[p[i]-'a']++;
+
+        int checker_abc[26] = {0};
+
+        for(int i=0;i<lp;i++)
+        {
+            checker_abc[text[i]-'a']++;
+        }
+
+        for(int i=lp;i<lt;i++)
+        {
+            int found = 1;
+            for(int k=0;k<26;k++)
+            {
+                if(p_abc[k] != checker_abc[k])
+                {
+                    found = 0;break;
+                }
+            }
+            if(found)
+            {
+                f=1;
+                break;
+            }
+
+            checker_abc[text[i-lp]-'a']--;
+            checker_abc[text[i]-'a']++;
+        }
+        int found = 1;
+        for(int k=0;k<26 && !f;k++)
+            {
+                if(p_abc[k] != checker_abc[k])
+                {
+                    found = 0;
+                    break;
+                }
+            }
+        if(found) 
+            f=1;
+        if(!f)
+            cout<<"NO"<<endl;
+        else
+            cout<<"YES"<<endl;
+    }
+    return 0;
+}
+
